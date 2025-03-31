@@ -87,13 +87,7 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 
 DATABASES = {
     'default': {
-        'default': dj_database_url.config(default=os.getenv('DATABASE_URL')),
-        'ENGINE': 'django.db.backends.postgresql',
-        'NAME': 'ecommerce_project',  
-        'USER': 'postgres',          
-        'PASSWORD': 'Postgres@12345', 
-        'HOST': 'localhost',         
-        'PORT': '5432',             
+        'default': dj_database_url.config(default=os.getenv('DATABASE_URL')),           
     }
 }
 
