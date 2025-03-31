@@ -1,0 +1,88 @@
+<nav class="navbar navbar-expand-lg navbar-dark bg-dark fixed-top">
+  <div class="container">
+    <a class="navbar-brand" href="{% url 'home' %}"><i class="fa fa-cart-plus"></i> ShopKart</a>
+    <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNavAltMarkup" aria-controls="navbarNavAltMarkup" aria-expanded="false" aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse" id="navbarNavAltMarkup">
+      <div class="navbar-nav ms-auto">
+        <a class="nav-link active" aria-current="page" href="{% url 'home' %}"><i class="fa fa-home"></i> Home</a>
+        {% if request.user.is_authenticated %}
+          <a class="nav-link" aria-current="page" href="#"><i class="fa fa-user"></i> {{ request.user }}</a>
+          <a class="nav-link" aria-current="page" href="{% url 'logout' %}"><i class="fa fa-sign-out"></i> Logout</a>
+        {% else %}
+          <a class="nav-link" href="{% url 'login' %}"><i class="fa fa-sign-in"></i> Login</a>
+          <a class="nav-link" href="{% url 'register' %}"><i class="fa fa-users"></i> Register</a>
+        {% endif %}
+        <a class="nav-link" href="{% url 'collections' %}"><i class="fa fa-cubes"></i> Collections</a>
+        <a class="nav-link" href="{% url 'cart' %}"><i class="fa fa-shopping-cart"></i> Cart</a>
+        <a class="nav-link" href="{% url 'favviewpage' %}"><i class="fa fa-heart"></i> Favourite</a>
+      </div>
+    </div>
+  </div>
+</nav>
+
+<style>
+  /* Custom styles for the navbar */
+  .navbar {
+    background-color: #1a1a1a !important; /* Dark background */
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2); /* Shadow for depth */
+  }
+
+  .navbar-brand {
+    font-size: 1.5rem;
+    font-weight: 600;
+    color: #28a745 !important; /* Green accent color */
+    transition: color 0.3s ease;
+  }
+
+  .navbar-brand:hover {
+    color: #218838 !important; /* Darker green on hover */
+  }
+
+  .navbar-nav .nav-link {
+    font-size: 1rem;
+    font-weight: 500;
+    color: #ffffff !important; /* White text */
+    margin: 0 10px;
+    padding: 8px 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .navbar-nav .nav-link:hover {
+    background-color: rgba(255, 255, 255, 0.1); /* Light background on hover */
+    color: #28a745 !important; /* Green text on hover */
+    transform: translateY(-2px); /* Slight upward movement */
+  }
+
+  .navbar-nav .nav-link.active {
+    background-color: rgba(255, 255, 255, 0.1); /* Light background for active link */
+    color: #28a745 !important; /* Green text for active link */
+  }
+
+  .navbar-toggler {
+    border: none;
+    outline: none;
+  }
+
+  .navbar-toggler-icon {
+    background-image: url("data:image/svg+xml;charset=utf8,%3Csvg viewBox='0 0 30 30' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath stroke='rgba(255, 255, 255, 0.8)' stroke-width='2' stroke-linecap='round' stroke-miterlimit='10' d='M4 7h22M4 15h22M4 23h22'/%3E%3C/svg%3E");
+  }
+
+  /* Animations */
+  .navbar-nav .nav-link {
+    animation: fadeIn 0.5s ease-in-out;
+  }
+
+  @keyframes fadeIn {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+</style>

@@ -1,0 +1,240 @@
+@import url('https://fonts.googleapis.com/css2?family=Noto+Sans:ital,wght@0,100..900;1,100..900&display=swap');
+
+html {
+  font-size: 14px;
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: 'Noto Sans', sans-serif;
+  background-color: #d6d6d6; /* Soft ash color */
+  color: #333;
+}
+
+/* Remove default link styles */
+a {
+  text-decoration: none;
+  color: inherit;
+}
+
+/* Carousel Styling */
+.carousel-item img {
+  object-fit: cover;
+  object-position: center;
+  height: 60vh;
+  overflow: hidden;
+  border-radius: 10px;
+  filter: brightness(90%);
+  transition: filter 0.3s ease-in-out;
+}
+
+.carousel-item img:hover {
+  filter: brightness(100%);
+}
+
+/* Price Styling */
+.old_price {
+  font-weight: bold;
+  color: #d9534f;
+  text-decoration: line-through;
+  font-size: 1.1rem;
+}
+
+.new_price {
+  font-weight: bold;
+  background-color: #28a745;
+  color: white;
+  padding: 3px 8px;
+  border-radius: 5px;
+  margin-bottom: 5px;
+  font-size: 1.2rem;
+}
+
+/* Hot Label */
+.pic-box {
+  position: relative;
+}
+
+.hot {
+  background-color: orangered;
+  color: white;
+  width: 60px;
+  text-align: center;
+  font-weight: bold;
+  display: inline-block;
+  border-radius: 5px;
+  padding: 5px;
+  position: absolute;
+  top: 10px;
+  right: 15px;
+  z-index: 10;
+  animation: fadeInUp 0.5s ease-in-out;
+}
+
+/* Card Styling */
+.card {
+  background: #f2f2f2;
+  border: 1px solid #ccc;
+  border-radius: 15px;
+  overflow: hidden;
+  transition: transform 0.4s ease-in-out, box-shadow 0.4s ease-in-out;
+  position: relative;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0px 5px 20px rgba(0, 0, 0, 0.2);
+}
+
+.card-img-top {
+  border-top-left-radius: 15px;
+  border-top-right-radius: 15px;
+  transition: transform 0.3s ease-in-out;
+}
+
+.card:hover .card-img-top {
+  transform: scale(1.05);
+}
+
+/* Button Styling */
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 25px;
+  background: #4a4a4a;
+  color: white;
+  font-weight: bold;
+  text-transform: uppercase;
+  transition: all 0.3s ease-in-out;
+  border: none;
+}
+
+.btn:hover {
+  background: #3a3a3a;
+  transform: translateY(-3px);
+}
+
+/* Floating Badge */
+.badge-sale {
+  position: absolute;
+  top: 15px;
+  left: 15px;
+  background: red;
+  color: white;
+  padding: 5px 10px;
+  font-size: 0.9rem;
+  font-weight: bold;
+  border-radius: 5px;
+}
+
+/* Subtle Fade-In Animation */
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.card {
+  animation: fadeIn 0.4s ease-out;
+}
+
+/* Smooth Scale Effect on Hover */
+.card:hover {
+  transform: scale(1.02);
+  transition: transform 0.3s ease-out;
+}
+
+
+/* Footer Styling */
+footer {
+  background: #e6e6e6;
+  padding: 20px;
+  color: #333;
+  text-align: center;
+  border-top: 2px solid #ccc;
+}
+
+footer a {
+  color: #555;
+  font-weight: bold;
+  transition: color 0.3s ease-in-out;
+}
+
+footer a:hover {
+  color: #222;
+}
+
+/* css for slidebar admin /*
+/* Sidebar styles */
+.sidebar {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 60px;
+  height: 100%;
+  background: black;
+  transition: 0.3s;
+  overflow-x: hidden;
+  padding-top: 10px;
+}
+
+.sidebar-content {
+  display: none;
+  padding: 10px;
+}
+
+.sidebar a {
+  display: block;
+  color: white;
+  text-decoration: none;
+  padding: 10px;
+  transition: 0.3s;
+}
+
+.sidebar a:hover {
+  background: gray;
+}
+
+.open-btn {
+  font-size: 24px;
+  background: none;
+  color: white;
+  border: none;
+  padding: 10px;
+  cursor: pointer;
+}
+
+.sidebar.active {
+  width: 150px;
+}
+
+.sidebar.active .sidebar-content {
+  display: block;
+}
+
+/* Navbar styles */
+.navbar {
+  display: flex;
+  justify-content: space-between;
+  background: black;
+  padding: 10px;
+}
+
+.nav-links {
+  display: flex;
+  list-style: none;
+}
+
+.nav-links li {
+  margin: 0 10px;
+}
+
+.nav-links a {
+  color: white;
+  text-decoration: none;
+}

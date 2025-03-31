@@ -1,0 +1,36 @@
+{% extends 'shop/layouts/main.html' %}
+{% block title %}
+    ShopKart | Online Shopping
+{% endblock title %}
+
+{% block content %}
+<section class="bg-light py-4 my-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-12">
+                <h4 class="mb-3">{{ category_name }} Products</h4>
+                <hr style="border-color: #b8bfc2;">
+            </div>
+        </div>
+
+        <div class="row">  
+            {% for item in products %}
+            <div class="col-md-4 col-lg-3 mb-4">  
+                <div class="card h-100">  
+                    <a href="{% url 'product_details' category_name item.name %}">
+                        <img src="{{ item.product_image.url }}" class="card-img-top img-fluid" alt="{{ item.name }}">  <!-- Added img-fluid for responsive images -->
+                        <div class="card-body">
+                            <h5 class="card-title text-primary">{{ item.name }}</h5>
+                            <p class="card-text">
+                                <span class="float-start old_price"><s>Rs. {{ item.original_price | floatformat:2 }}</s></span>
+                                <span class="float-end new_price">Rs. {{ item.selling_price | floatformat:2 }}</span>
+                            </p>
+                        </div>
+                    </a>
+                </div>
+            </div>
+            {% endfor %}
+        </div>  <!-- Close the row -->
+    </div>
+</section>
+{% endblock content %}

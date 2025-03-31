@@ -1,0 +1,140 @@
+{% extends 'shop/layouts/main.html' %}
+{% block title %}
+  Registration | ShopKart
+{% endblock title %}
+{% block content %}
+  <section class="bg-light py-4 my-5" style="min-height:600px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h4 class="mb-3">Cart Items</h4>
+          <hr style="border-color:#b8bfc2;">
+        </div>
+            
+        <table class="table table-bordered cart-table">
+          <thead>
+            <tr>
+              <th>Image</th>
+              <th>Product Name</th>
+              <th>Unit</th>
+              <th>Quantity</th>
+              <th>Amount</th>
+              <th>Remove</th>
+            </tr>
+          </thead>
+          <tbody>
+            {% for item in cart %}
+            <tr class="animate__animated animate__fadeIn">
+              <td><img src="{{item.product.product_image.url}}" height="75px" alt="{{item.product.name}}" class="cart-image"></td>
+              <td>{{item.product.name}}</td>
+              <td>Rs. {{item.product.selling_price | stringformat:'d'}}</td>
+              <td>{{item.product_qty}}</td>
+              <td class="amt">Rs. {{item.total_cost | stringformat:'d'}}</td>
+              <td>
+                <a href="{% url 'remove_cart' item.id %}" onclick="return confirm('Are you sure? to Remove')" class="btn btn-danger btn-sm">
+                  <i class="fa fa-trash"></i> Remove
+                </a>
+              </td>
+            </tr>
+            {% endfor %}
+            <tr class="animate__animated animate__fadeIn">
+              <td></td>
+              <td></td>
+              <td colspan="2"><b>Total Amount</b></td>
+              <th id="net">0</th>
+              <td>
+                <a href="{% url 'checkout' %}" class="btn btn-outline-success">Checkout</a>
+                
+      
+              </td>
+            </tr>
+          </tbody>
+        </table>
+      </div>
+    </div>
+  </section>
+
+  <!-- Custom CSS -->
+  <style>
+    /* Table Styling */
+    .cart-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .cart-table th, .cart-table td {
+        padding: 12px;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+
+    .cart-table th {
+        background-color: #343a40;
+        color: white;
+        font-weight: bold;
+    }
+
+    .cart-table tr:hover {
+        background-color: #f5f5f5;
+        transition: background-color 0.3s ease;
+    }
+
+    /* Image Styling */
+    .cart-image {
+        border-radius: 8px;
+        transition: transform 0.3s ease;
+    }
+
+    .cart-image:hover {
+        transform: scale(1.1);
+    }
+
+    /* Button Styling */
+    .btn-danger {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-danger:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    .checkout-btn {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .checkout-btn:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Fade-in Animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    .animate__animated {
+        animation-duration: 0.5s;
+    }
+
+    .animate__fadeIn {
+        animation-name: fadeIn;
+    }
+  </style>
+
+  <script>
+    const nodes = document.querySelectorAll('.amt');
+    const arr = Array.from(nodes);
+    const res = arr.reduce((acc, curr) => {
+     return acc += Number(curr.textContent.replace('Rs. ', ''));
+    }, 0);
+    document.getElementById("net").innerHTML = "Rs. " + res;
+  </script>
+{% endblock content %}

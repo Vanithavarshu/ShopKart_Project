@@ -1,0 +1,102 @@
+{% extends 'shop/layouts/main.html' %}
+{% block title %}
+  Registration | ShopKart
+{% endblock title %}
+{% block content %}
+  <section class="bg-light py-4 my-5" style="min-height:600px;">
+    <div class="container">
+      <div class="row">
+        <div class="col-12">
+          <h4 class="mb-3">Favourite Item</h4>
+          <hr style="border-color:#b8bfc2;">
+        </div>
+      
+        <table class="favourite-table">
+            <tr>
+                <th>Image</th>
+                <th>Product Name</th>
+                <th>Unit</th>
+                <th>Remove</th>
+            </tr>
+          
+
+            {% for item in fav %}
+           <tr class="animate__animated animate__fadeIn">
+              <td><img src="{{item.product.product_image.url}}" height="75px" alt="{{item.product.name}}" class="table-image"></td>
+              <td>{{item.product.name}}</td>
+              <td>{{item.product.selling_price | stringformat:'d'}}</td>
+              <td><a href="{% url 'remove_fav' item.id %}"  onclick="return confirm('Are you sure? to Remove')"  class="btn btn-danger btn-sm"><i class="fa fa-trash"></i> Remove</a></td>
+            </tr>
+            {% endfor %}
+        </table>
+       
+      </div>
+      </div>
+  </section>
+
+  <!-- Custom CSS -->
+  <style>
+    /* Table Styling */
+    .favourite-table {
+        width: 100%;
+        border-collapse: collapse;
+        margin-top: 20px;
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+
+    .favourite-table th, .favourite-table td {
+        padding: 12px;
+        text-align: center;
+        border: 1px solid #ddd;
+    }
+
+    .favourite-table th {
+        background-color: #343a40;
+        color: white;
+        font-weight: bold;
+    }
+
+    .favourite-table tr:hover {
+        background-color: #f5f5f5;
+        transition: background-color 0.3s ease;
+    }
+
+    /* Image Styling */
+    .table-image {
+        border-radius: 8px;
+        transition: transform 0.3s ease;
+    }
+
+    .table-image:hover {
+        transform: scale(1.1);
+    }
+
+    /* Button Styling */
+    .btn-danger {
+        transition: transform 0.2s ease, box-shadow 0.2s ease;
+    }
+
+    .btn-danger:hover {
+        transform: scale(1.05);
+        box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+    }
+
+    /* Fade-in Animation */
+    @keyframes fadeIn {
+        from {
+            opacity: 0;
+        }
+        to {
+            opacity: 1;
+        }
+    }
+
+    .animate__animated {
+        animation-duration: 0.5s;
+    }
+
+    .animate__fadeIn {
+        animation-name: fadeIn;
+    }
+  </style>
+{% endblock content %}

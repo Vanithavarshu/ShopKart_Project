@@ -1,0 +1,73 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ShopKart - Chat</title>
+    <style>
+        /* Basic styles for the chat window */
+        #chat-box {
+            width: 300px;
+            height: 400px;
+            border: 1px solid #ccc;
+            overflow-y: auto;
+            padding: 10px;
+            background-color: #f9f9f9;
+            position: fixed;
+            bottom: 20px;
+            right: 20px;
+            display: none; /* Initially hidden */
+        }
+        #chat-input {
+            width: 80%;
+            padding: 5px;
+        }
+        #send-btn {
+            padding: 5px;
+            cursor: pointer;
+        }
+    </style>
+</head>
+<body>
+    
+    <!-- Chatbox UI -->
+    <div id="chat-box">
+        <div id="chat-messages"></div>
+        <input type="text" id="chat-input" placeholder="Ask me anything...">
+        <button id="send-btn">Send</button>
+    </div>
+
+    <!-- Button to Toggle Chat -->
+    <button onclick="toggleChat()">Chat with us</button>
+
+    <script>
+        function toggleChat() {
+            let chatBox = document.getElementById('chat-box');
+            chatBox.style.display = (chatBox.style.display === 'none') ? 'block' : 'none';
+        }
+
+        document.getElementById('send-btn').addEventListener('click', function () {
+            let userInput = document.getElementById('chat-input').value;
+            let chatMessages = document.getElementById('chat-messages');
+
+            // Show user message in chatbox
+            chatMessages.innerHTML += `<p><strong>You:</strong> ${userInput}</p>`;
+
+            // Send user message to backend (Django view)
+            fetch('/chatbot/', {
+                method: 'POST',
+                headers: {
+                    'Content-Type': 'application/json',
+                    'X-CSRFToken': '{{ csrf_token }}'
+                },
+                body: JSON.stringify({ message: userInput })
+            })
+            .then(response => response.json())
+            .then(data => {
+                chatMessages.innerHTML += `<p><strong>Bot:</strong> ${data.response}</p>`;
+            })
+            .catch(error => console.error('Error:', error));
+        });
+    </script>
+</body>
+</html>

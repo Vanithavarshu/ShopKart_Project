@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <title>AI Chatbot</title>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+</head>
+<body>
+    <h2>Chat with DeepSeek AI</h2>
+    <div id="chatbox">
+        <p><strong>Bot:</strong> Hi! How can I help you today?</p>
+    </div>
+    <input type="text" id="userInput" placeholder="Type a message..." />
+    <button onclick="sendMessage()">Send</button>
+
+    <script>
+        function sendMessage() {
+            var message = $("#userInput").val();
+            $("#chatbox").append("<p><strong>You:</strong> " + message + "</p>");
+            
+            $.post("/chatbot/", { message: message }, function(data) {
+                $("#chatbox").append("<p><strong>Bot:</strong> " + data.reply + "</p>");
+            });
+            
+            $("#userInput").val("");
+        }
+    </script>
+</body>
+</html>
