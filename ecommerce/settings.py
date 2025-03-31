@@ -28,7 +28,8 @@ SECRET_KEY = 'django-insecure-(&g_ojfq6750=_d0u=h4&vef299dd2m=zuc&6=$fl7y(=)28ab
 DEBUG = True
 
 
-ALLOWED_HOSTS = []
+ALLOWED_HOSTS = ['shopkart-project.onrender.com', '127.0.0.1']
+
 
 
 
