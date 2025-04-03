@@ -14,6 +14,25 @@ from pathlib import Path
 import os
 
 import dj_database_url
+import cloudinary
+import cloudinary.uploader
+import cloudinary.api
+from cloudinary_storage.storage import MediaCloudinaryStorage
+
+#cloudinary settings import cloudinary
+import cloudinary.uploader
+from cloudinary.utils import cloudinary_url
+
+# Configuration       
+cloudinary.config( 
+    cloud_name = "dbxnot8k0", 
+    api_key = "756636992459866", 
+    api_secret = "<7DRnmEjtcmgZiU6mdFaAJ6G-dxE>", # Click 'View API Keys' above to copy your API secret
+    secure=True
+)
+DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
+
+
 
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
@@ -27,12 +46,11 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-(&g_ojfq6750=_d0u=h4&vef299dd2m=zuc&6=$fl7y(=)28ab'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False  #for render
+"""DEBUG = True""" #for local
 
 
 ALLOWED_HOSTS = ['shopkart-project.onrender.com', '127.0.0.1']
-
-
 
 
 # Application definition
@@ -92,7 +110,6 @@ DATABASES = {
     
 """DATABASES = {
     'default': {
-        'default': dj_database_url.config(default=os.getenv('DATABASE_URL')),
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'ecommerce_project',  
         'USER': 'postgres',          
@@ -144,7 +161,8 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 MEDIA_URL = '/images/'
-MEDIA_ROOT = BASE_DIR/'static'  
+MEDIA_ROOT = BASE_DIR/'static'
+
 
 
 STATICFILES_DIRS = [

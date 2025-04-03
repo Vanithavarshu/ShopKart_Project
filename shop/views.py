@@ -14,6 +14,7 @@ from django.http import HttpResponse
 from django.conf import settings
 from django.shortcuts import render, get_object_or_404
 from django.contrib.auth.decorators import login_required
+from django.views.decorators.csrf import csrf_exempt
 import requests
  
  
@@ -49,14 +50,7 @@ def remove_cart(request,cid):
   cartitem=Cart.objects.get(id=cid)
   cartitem.delete()
   return redirect("/cart")
- 
-def delete_cart_items(request):
-    if request.user.is_authenticated:
-        Cart.objects.filter(user=request.user).delete()
-        return JsonResponse({'status': 'Cart cleared successfully'})
-    else:
-        return JsonResponse({'status': 'Login required'}, status=401)
-    
+     
 def clear_cart(request):
     if request.user.is_authenticated:
         Cart.objects.filter(user=request.user).delete()
@@ -339,3 +333,51 @@ def vieworder(request, t_no):
     context = {'order': order, 'orderitems': orderitems}
     return render(request, 'shop/orders/view.html', context)
 
+#delete cart after a payment
+import json
+from django.http import JsonResponse
+from django.contrib.auth.decorators import login_required
+from shop.models import Cart, Order
+
+@login_required
+def razorpay_success(request):
+    if request.method == "POST":
+        try:
+            data = json.loads(request.body)
+            payment_id = data.get("payment_id")
+            if not payment_id:
+                return JsonResponse({"status": "error", "message": "Payment ID missing"}, status=400)
+
+            # Get user and cart items
+            user = request.user
+            cart_items = Cart.objects.filter(user=user)
+
+            if not cart_items.exists():
+                return JsonResponse({"status": "error", "message": "Cart is empty"}, status=400)
+
+            # Move cart items to order
+            for item in cart_items:
+                Order.objects.create(
+                    user=user,
+                    product=item.product,
+                    quantity=item.quantity,
+                    total_price=item.total_price,
+                    payment_id=payment_id,
+                    status="Processing"
+                )
+
+            # ✅ Delete cart items
+            cart_items.delete()
+
+            return JsonResponse({"status": "success"})
+        except Exception as e:
+            return JsonResponse({"status": "error", "message": str(e)}, status=400)
+
+    return JsonResponse({"status": "error"}, status=400)
+
+@login_required
+def delete_cart_items(request):
+    if request.method == "POST":
+        Cart.objects.filter(user=request.user).delete()  # Delete user's cart items
+        return JsonResponse({"status": "success"})
+    return JsonResponse({"status": "error"}, status=400)

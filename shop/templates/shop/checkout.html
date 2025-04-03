@@ -247,58 +247,69 @@
     
     <!-- Razorpay Payment -->
     <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
-    <script>
-    function initiateRazorpayPayment() {
-        var totalAmount = parseFloat("{{ total_price|default:0|floatformat:2 }}") * 100;  // Convert to paise
-        var options = {
-            "key": "YOUR_RAZORPAY_KEY",
-            "amount": totalAmount * 100,  // Convert to paise
-            "currency": "INR",
-            "name": "ShopKart",
-            "description": "Order Payment",
-            "handler": function (response) {
-                // Show a success message
+<script>
+function initiateRazorpayPayment() {
+    var totalAmount = parseFloat("{{ total_price|default:0|floatformat:2 }}") * 100; // Convert to paise
+    var options = {
+        "key": "YOUR_RAZORPAY_KEY",
+        "amount": totalAmount * 100,
+        "currency": "INR",
+        "name": "ShopKart",
+        "description": "Order Payment",
+        "handler": function (response) {
+            // Show success message
+            Swal.fire({
+                title: "Payment Successful!",
+                text: "Your order has been placed successfully. Processing...",
+                icon: "success",
+                timer: 3000,
+                showConfirmButton: false
+            });
+
+            // ✅ Send payment ID to backend
+            fetch("{% url 'razorpay_success' %}", {
+                method: "POST",
+                headers: {
+                    "X-CSRFToken": document.querySelector('[name=csrfmiddlewaretoken]').value,
+                    "Content-Type": "application/json"
+                },
+                body: JSON.stringify({ "payment_id": response.razorpay_payment_id })
+            })
+            .then(res => res.json())
+            .then(data => {
+                if (data.status === "success") {
+                    console.log("Order saved, cart cleared, redirecting...");
+
+                    // ✅ Redirect to My Orders page
+                    setTimeout(() => {
+                        window.location.href = "{% url 'myorders' %}";
+                    }, 3000);
+                } else {
+                    Swal.fire({
+                        title: "Error!",
+                        text: "Something went wrong. Please check your order history.",
+                        icon: "error",
+                        showConfirmButton: true
+                    });
+                }
+            })
+            .catch(() => {
                 Swal.fire({
-                    title: "Payment Successful!",
-                    text: "Your order has been placed successfully. Redirecting...",
-                    icon: "success",
-                    timer: 3000,
-                    showConfirmButton: false
+                    title: "Error!",
+                    text: "Payment verification error! Please try again.",
+                    icon: "error",
+                    showConfirmButton: true
                 });
-        
-                // Call backend to remove cart items
-                $.ajax({
-                    type: "POST",
-                    url: "/razorpay-success/",
-                    data: {
-                        "payment_id": response.razorpay_payment_id,
-                        csrfmiddlewaretoken: "{{ csrf_token }}"
-                    },
-                    success: function (data) {
-                        if (data.status === "success") {
-                            setTimeout(() => {
-                                window.location.href =  "{% url 'myorders' %}";  // Redirect to My Orders Page
-                            }, 3000);
-                        }
-                    },
-                    error: function () {
-                        alert("Something went wrong! Please check your order status.");
-                    }
-                });
-            }
-        };
-        
-        // Initialize Razorpay
-        var rzp1 = new Razorpay(options);
-        rzp1.open();
-        
-       
-    }
+            });
+        }
+    };
 
-    </script>
+    var rzp1 = new Razorpay(options);
+    rzp1.open();
+}
+</script>
 
-    
-    
+</script>
 {% endblock %}
 {% block scripts %}
 <script src="https://checkout.razorpay.com/v1/checkout.js"></script>
