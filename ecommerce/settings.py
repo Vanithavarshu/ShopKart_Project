@@ -14,26 +14,13 @@ from pathlib import Path
 import os
 
 import dj_database_url
+#cloudinary
 import cloudinary
 import cloudinary.uploader
 import cloudinary.api
-from cloudinary_storage.storage import MediaCloudinaryStorage
-
-#cloudinary settings import cloudinary
-import cloudinary.uploader
-from cloudinary.utils import cloudinary_url
-
-# Configuration       
-cloudinary.config( 
-    cloud_name = "dbxnot8k0", 
-    api_key = "756636992459866", 
-    api_secret = "<7DRnmEjtcmgZiU6mdFaAJ6G-dxE>", # Click 'View API Keys' above to copy your API secret
-    secure=True
-)
-DEFAULT_FILE_STORAGE = 'cloudinary_storage.storage.MediaCloudinaryStorage'
-
-
-
+import os
+from dotenv import load_dotenv
+load_dotenv()  # Load environment variables
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -46,8 +33,8 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = 'django-insecure-(&g_ojfq6750=_d0u=h4&vef299dd2m=zuc&6=$fl7y(=)28ab'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False  #for render
-"""DEBUG = True""" #for local
+
+DEBUG = True #for local
 
 
 ALLOWED_HOSTS = ['shopkart-project.onrender.com', '127.0.0.1']
@@ -56,6 +43,9 @@ ALLOWED_HOSTS = ['shopkart-project.onrender.com', '127.0.0.1']
 # Application definition
 
 INSTALLED_APPS = [
+    'cloudinary',
+    'cloudinary_storage',
+    'django.contrib.staticfiles',
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -103,12 +93,12 @@ WSGI_APPLICATION = 'ecommerce.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/5.1/ref/settings/#databases
 
-DATABASES = {
+"""DATABASES = {
     'default': dj_database_url.config(default=os.getenv("DATABASE_URL"))
-}
+}"""
 
     
-"""DATABASES = {
+DATABASES = {
     'default': {
         'ENGINE': 'django.db.backends.postgresql',
         'NAME': 'ecommerce_project',  
@@ -117,7 +107,7 @@ DATABASES = {
         'HOST': 'localhost',         
         'PORT': '5432',             
     }
-}"""
+}
 
 
 
@@ -168,6 +158,15 @@ MEDIA_ROOT = BASE_DIR/'static'
 STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
+
+CLOUDINARY_STORAGE = {
+  'CLOUD_NAME': os.environ.get("dbxnot8k0",),
+  'API_KEY': os.environ.get("756636992459866",),
+  'API_SECRET': os.environ.get("7DRnmEjtcmgZiU6mdFaAJ6G-dxE")
+}
+# Set Cloudinary as the default storage for media files
+DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
+
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
 

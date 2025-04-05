@@ -1,7 +1,7 @@
 from itertools import product
 from django.db import models
 from django.contrib.auth.models import User
-from cloudinary.models import CloudinaryField   #cloudinary
+from cloudinary.models import CloudinaryField #cloudinary
 import datetime
 import os
 import random
@@ -120,10 +120,14 @@ class Profile(models.Model):
    def __str__(self):
       return self.user.username
    
-#clouldinary
+#cloudinary
+
 class Product(models.Model):
-    name = models.CharField(max_length=255)
-    product_image = CloudinaryField('image')  # Use CloudinaryField instead of ImageField
+    name = models.CharField(max_length=100)
+    image = CloudinaryField('image')
+
+   
+
 
    
    
