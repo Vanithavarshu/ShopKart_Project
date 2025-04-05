@@ -14,13 +14,6 @@ from pathlib import Path
 import os
 
 import dj_database_url
-#cloudinary
-import cloudinary
-import cloudinary.uploader
-import cloudinary.api
-import os
-from dotenv import load_dotenv
-load_dotenv()  # Load environment variables
 
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
@@ -45,7 +38,6 @@ ALLOWED_HOSTS = ['shopkart-project.onrender.com', '127.0.0.1']
 INSTALLED_APPS = [
     'cloudinary',
     'cloudinary_storage',
-    'django.contrib.staticfiles',
     'jazzmin',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -151,6 +143,7 @@ USE_TZ = True
 STATIC_URL = '/static/'
 
 MEDIA_URL = '/images/'
+# local
 MEDIA_ROOT = BASE_DIR/'static'
 
 
@@ -159,13 +152,6 @@ STATICFILES_DIRS = [
     BASE_DIR / 'static'
 ]
 
-CLOUDINARY_STORAGE = {
-  'CLOUD_NAME': os.environ.get("dbxnot8k0",),
-  'API_KEY': os.environ.get("756636992459866",),
-  'API_SECRET': os.environ.get("7DRnmEjtcmgZiU6mdFaAJ6G-dxE")
-}
-# Set Cloudinary as the default storage for media files
-DEFAULT_FILE_STORAGE = "cloudinary_storage.storage.MediaCloudinaryStorage"
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.1/ref/settings/#default-auto-field
